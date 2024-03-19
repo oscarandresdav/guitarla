@@ -5,6 +5,19 @@ import { db } from './data/db'
 
 function App () {
   const [data, setData] = useState(db)
+  const [cart, setCart] = useState([])
+
+  const addToCart = (item) => {
+    const itemExists = cart.findIndex(guitar => guitar.id === item.id)
+    if (itemExists >= 0) {
+      const updatedCart = [...cart]
+      updatedCart[itemExists].quantity++
+      setCart(updatedCart)
+    } else {
+      item.quantity = 1
+      setCart([...cart, item])
+    }
+  }
 
   return (
     <>
@@ -17,6 +30,7 @@ function App () {
             <Guitar
               key={guitar.id}
               guitar={guitar}
+              addToCart={addToCart}
             />
           ))}
         </div>
